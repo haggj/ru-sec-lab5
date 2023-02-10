@@ -9,10 +9,16 @@
 <a href="/">Back</a>
 <h1>Wilbur Whateley & co blog</h1> 
 <?php
-if (isset($_GET['file'])) {
-        $file = $_GET['file'];	
+if (isset($_GET['file']) && !empty($_GET['file'])) {
+
+	$file = "dir/" . basename($_GET['file']);
+	if (file_exists($file)) {
 	$file = file_get_contents($file);
 	echo "$file";
+	} else {
+		echo "Not found";
+	}
+	
 	echo '<br /><a href="/blog.php">Back to blog index</a>';
 }
 else {
@@ -30,7 +36,7 @@ else {
 	foreach($db->query($query) as $row) {
 		$href = $row[2];
 		$title = $row[1]; 
-		echo "<li> <a href='/blog.php?file=dir/$href'>$title</a> </li> ";
+		echo "<li> <a href='/blog.php?file=$href'>$title</a> </li> ";
   	}
 
 	echo "</ul>";
