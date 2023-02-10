@@ -44,12 +44,13 @@ if(isset($_SESSION['user'])) {
 				$password = "verysecuresqlpassword12321312312312";
 				$database = "my_first_database";
 				$table = "users";
-				$db = new PDO("mysql:host=localhost;dbname=$database", $user, $password);
+				$db = new PDO("mysql:host=127.0.0.1;dbname=$database", $user, $password);
 				$newTitle = $_POST['title'];
-				$db->query("INSERT INTO my_first_database.blogs (blog_title, blog_file) VALUES ('$newTitle', '$fileName'); ");
 
+				$statement = $db->prepare('INSERT INTO blogs (blog_title, blog_file) VALUES (?, ?);');
+				$statement->execute([$newTitle, $fileName]);
 
-    				echo "The file ". htmlspecialchars( basename( $_FILES["file"]["name"])). " has been uploaded.";
+    			echo "The file ". htmlspecialchars( basename( $_FILES["file"]["name"])). " has been uploaded.";
   			} else {
 	  			echo "Sorry, there was an error uploading your file.";
 	  		}

@@ -27,11 +27,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		$user = "wilburwhateley";
 		$password = "verysecuresqlpassword12321312312312";
 		$database = "my_first_database";
-		$table = "users";
 		$db = new PDO("mysql:host=127.0.0.1;dbname=$database", $user, $password);
-		$query = "SELECT * FROM $table where user_name = '$loginusername' and password = '$loginpassword'";
-		$statement = $db->prepare($query);
+
+		$statement = $db->prepare('SELECT * FROM users where user_name = ? and password = ?');
+		$statement->execute([$loginusername, $loginpassword]);
 		$statement->execute();
+
 		$result = $statement->fetchAll();
 		if(!$result) {
 			echo "<p>Invalid login information. If your login information is lost, please let me know by mail at 13 Barrow rd. Dunwich Massachusetts</p>"; 
