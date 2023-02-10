@@ -29,22 +29,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		$database = "my_first_database";
 		$db = new PDO("mysql:host=localhost;dbname=$database", $user, $password);
 
-		$statement = $db->prepare('SELECT * FROM users where user_name = ? and password = ?');
-		$statement->execute([$loginusername, $loginpassword]);
+		$statement = $db->prepare('SELECT * FROM users where user_name = ?');
+		$statement->execute([$loginusername]);
 
 		$result = $statement->fetchAll();
-		if(!$result) {
-			echo "<p>Invalid login information. If your login information is lost, please let me know by mail at 13 Barrow rd. Dunwich Massachusetts</p>"; 
-			unset($_SESSION['user']);
-			session_destroy();
-			exit;
-		} else {
+		if($result) {
+			if(password_verify($loginpassword, $result[0][2])){
 			$userid = $result[0][0];
 			$username = $result[0][1];
 			$_SESSION['user'] = $username;
 			echo "<p> You are now logged in <strong>$username</strong></p>"; 
 			echo "<p> You can now proceed to view your <a href='messages.php'>messages</a></p>";
+				exit;
 		}
+			
+		}
+
+		echo "<p>Invalid login information. If your login information is lost, please let me know by mail at 13 Barrow rd. Dunwich Massachusetts</p>"; 
+		unset($_SESSION['user']);
+		session_destroy();
+		exit;
   	}
 }
 ?>

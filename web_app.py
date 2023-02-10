@@ -114,7 +114,7 @@ def main():
         else:
             print("❌ SQL injection in 'admin.php'")
     else:
-        print(f"❌ 'logged_in' cookie at /admin.php")
+        print(f"❌ 'logged_in' cookie at /admin.php (check sql injection in admin im logged in!!!!)")
     
     # Check for sql injection in login.php
     sql_user = "' or 1=1;--"
