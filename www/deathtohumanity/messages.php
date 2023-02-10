@@ -6,8 +6,8 @@
 
 <body>
 <?php
-
-if(!isset($_COOKIE['logged_in'])) {
+session_start();
+if(!isset($_SESSION['user'])) {
 
 
 	echo "<p>You need an account to view this page. <a href='login.php'>Go to login</a></p>";

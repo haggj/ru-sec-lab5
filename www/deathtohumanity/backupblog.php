@@ -24,8 +24,8 @@ else {
 	echo "<li> <a href='/blog.php?file=dir/top_5_places_to_summon_demons.html'>Top 5 travel destinations</a></li> ";
 	echo "</ul>";	
 
-
-	if(isset($_COOKIE['logged_in'])) {
+	session_start();
+	if(isset($_SESSION['user'])) {
 		echo "<h2>Admin operation</h2>";
 
 		if (isset($_POST["submit"])){

@@ -6,7 +6,8 @@
 <body>
 <a href="/">Back</a>
 <?php
-if(isset($_COOKIE['logged_in'])) {
+session_start();
+if(isset($_SESSION['user'])) {
 	if(!isset($_POST["submit"])) {
 		echo "<form action=\"admin.php\" method=\"post\" enctype=\"multipart/form-data\">
 		Select html file to upload: <br />
