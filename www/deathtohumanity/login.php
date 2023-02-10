@@ -27,11 +27,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		$user = "wilburwhateley";
 		$password = "verysecuresqlpassword12321312312312";
 		$database = "my_first_database";
-		$db = new PDO("mysql:host=127.0.0.1;dbname=$database", $user, $password);
+		$db = new PDO("mysql:host=localhost;dbname=$database", $user, $password);
 
 		$statement = $db->prepare('SELECT * FROM users where user_name = ? and password = ?');
 		$statement->execute([$loginusername, $loginpassword]);
-		$statement->execute();
 
 		$result = $statement->fetchAll();
 		if(!$result) {

@@ -44,7 +44,7 @@ if(isset($_SESSION['user'])) {
 				$password = "verysecuresqlpassword12321312312312";
 				$database = "my_first_database";
 				$table = "users";
-				$db = new PDO("mysql:host=127.0.0.1;dbname=$database", $user, $password);
+				$db = new PDO("mysql:host=localhost;dbname=$database", $user, $password);
 				$newTitle = $_POST['title'];
 
 				$statement = $db->prepare('INSERT INTO blogs (blog_title, blog_file) VALUES (?, ?);');
