@@ -16,6 +16,7 @@
 
 
 <?php
+ini_set('display_errors', 0);
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	session_start();
   // collect value of input field

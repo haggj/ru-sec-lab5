@@ -6,6 +6,7 @@
 <body>
 <a href="/">Back</a>
 <?php
+ini_set('display_errors', 0);
 session_start();
 if(isset($_SESSION['user'])) {
 	if(!isset($_POST["submit"])) {

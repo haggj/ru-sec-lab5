@@ -9,6 +9,7 @@
 <a href="/">Back</a>
 <h1>Wilbur Whateley & co blog</h1> 
 <?php
+ini_set('display_errors', 0);
 if (isset($_GET['file']) && !empty($_GET['file'])) {
 
 	$file = "dir/" . basename($_GET['file']);
