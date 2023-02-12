@@ -21,22 +21,16 @@
 
 # Things to protect
 
-- prevent file inclusion attack
-    - local file inclusion
-    - remote file inclusion
+
 - passwords in database 
     - change them!
-    - hash them!
+    - DONE hash them!
 - no credentials in php
 - disable directory listing
     - '/secretTexts'
     - '/dir'
-- avoid sql injection
-    - 'login.php'
 - disable info.php
 - clean robots.txt
-- disable logged_in cookie
-    - also check during file upload
 - remove backupblog.php
 - update version
     - php -> check for exploit!
@@ -45,3 +39,12 @@
 - disable ports
     - ssh
     - mysql
+
+- DONE disable logged_in cookie
+    - also check during file upload
+- DONE prevent file inclusion attack
+    - local file inclusion
+    - remote file inclusion
+-- DONE avoid sql injection
+    - 'login.php'
+    - 'admin.php'
