@@ -26,7 +26,16 @@ Put following lines in `/etc/mysql/my.cnf`
 ```bash
 [mysqld]
 bind-address = 127.0.0.1
+mysqlx_bind_address = 127.0.0.1
+
 ```
+
+session = mysqlx.get_session({
+    'host': '10.6.18.85',
+    'port': 33060,
+    'user': 'root',
+    'password': '_theGate&Thekey'
+})
 
 Then restart mysql service `sudo systemctl restart mysql `
 
@@ -54,6 +63,9 @@ Then restart mysql service `sudo systemctl restart mysql `
         ```
     - `systemctl enable shell`
     - `systemctl start shell`
+
+Targeted:
+- `10.6.18.85:33333`
 
 
 ## Find IPs with open MySQL ports

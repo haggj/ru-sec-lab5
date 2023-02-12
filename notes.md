@@ -22,16 +22,10 @@
 # Things to protect
 
 
-- passwords in database 
-    - change them!
-    - DONE hash them!
-- no credentials in php
-- disable directory listing
-    - '/secretTexts'
-    - '/dir'
-- disable info.php
-- clean robots.txt
-- remove backupblog.php
+
+
+
+SYSTEM:
 - update version
     - php -> check for exploit!
     - apache -> check for exploit!
@@ -39,7 +33,21 @@
 - disable ports
     - ssh
     - mysql
+- passwords in database 
+    - change them!
+    - DONE hash them!
+- disable second database running at 33060
+- change system users passwords
 
+PHP:
+- no credentials in php
+- disable directory listing
+    - '/secretTexts'
+    - '/dir'
+- disable info.php
+- clean robots.txt
+- remove backupblog.php
+- DONE disable php errors
 - DONE disable logged_in cookie
     - also check during file upload
 - DONE prevent file inclusion attack
