@@ -4,7 +4,14 @@
 `echo 'admin:jnjhuuinbuzeuzbcbhbhscel84786873zuhsdf' | chpasswd --crypt-method SHA512`
 
 ## Change apache
-`DocumentRoot "/var/www/deathtohumanity"`
+```
+DocumentRoot "/var/www/deathtohumanity"
+
+# Disable all accesses in /dir to prevent uploaded php files to be accessed
+<Directory /var/www/deathtohumanity/dir>
+        Require all denied
+</Directory>
+```
 
 Then restart apache2 service `sudo systemctl restart apache2 `
 
@@ -17,7 +24,6 @@ ALTER USER 'userName'@'localhost' IDENTIFIED BY 'New-Password-Here';
 FLUSH PRIVILEGES;
 # Drop users:
 DROP USER 'jeffrey'@'localhost';
-
 ```
 
 
@@ -29,13 +35,6 @@ bind-address = 127.0.0.1
 mysqlx_bind_address = 127.0.0.1
 
 ```
-
-session = mysqlx.get_session({
-    'host': '10.6.18.85',
-    'port': 33060,
-    'user': 'root',
-    'password': '_theGate&Thekey'
-})
 
 Then restart mysql service `sudo systemctl restart mysql `
 
@@ -76,6 +75,22 @@ Targeted:
 
 ## MySQL
 `hydra -C users.txt 10.6.18.185 mysql`
+
+Login via mysqlx:
+```python
+session = mysqlx.get_session({
+    'host': '10.6.18.85',
+    'port': 33060,
+    'user': 'root',
+    'password': '_theGate&Thekey'
+})
+```
+
+## PHP upload
+By default, the following files are interpreted as php: `.+\.ph(ar|p|tml)$`
+- php
+- phtml
+- phar
 
 
 

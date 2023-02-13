@@ -23,8 +23,6 @@
 
 
 
-
-
 SYSTEM:
 - update version
     - php -> check for exploit!
@@ -39,20 +37,24 @@ SYSTEM:
 - disable second database running at 33060
 - change system users passwords
 
-PHP:
-- no credentials in php
+APACHE:
+- disable access to files in dir
 - disable directory listing
     - '/secretTexts'
     - '/dir'
-- disable info.php
-- clean robots.txt
-- remove backupblog.php
+
+PHP:
+- disable uploads "php, phar, phtml"
+- DONE no credentials in php
+- DONE disable info.php
+- DONE clean robots.txt
+- DONE remove backupblog.php
 - DONE disable php errors
 - DONE disable logged_in cookie
     - also check during file upload
 - DONE prevent file inclusion attack
-    - local file inclusion
-    - remote file inclusion
+    - DONE local file inclusion
+    - DONE remote file inclusion
 -- DONE avoid sql injection
-    - 'login.php'
-    - 'admin.php'
+    - DONE 'login.php'
+    - DONE 'admin.php'
