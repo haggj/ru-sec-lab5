@@ -20,8 +20,8 @@ if(!isset($_SESSION['user'])) {
 
 
 } else {
-	$user = "wilburwhateley";
-	$password = "verysecuresqlpassword12321312312312";
+	$user = getenv('DB_USER');
+	$password = getenv('DB_PASSWORD');
 	$database = "my_first_database";
 	$db = new PDO("mysql:host=localhost;dbname=$database", $user, $password);
 	$query = "SELECT * FROM messages m join users u on m.userID = u.user_id";

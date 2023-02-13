@@ -41,8 +41,8 @@ if(isset($_SESSION['user'])) {
 
 
 
-				$user = "wilburwhateley";
-				$password = "verysecuresqlpassword12321312312312";
+				$user = getenv('DB_USER');
+				$password = getenv('DB_PASSWORD');
 				$database = "my_first_database";
 				$table = "users";
 				$db = new PDO("mysql:host=localhost;dbname=$database", $user, $password);

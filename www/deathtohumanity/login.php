@@ -25,8 +25,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   	if (empty($loginusername) || empty($loginpassword)) {
     		echo "You need to supply some credentials.";
   	} else {
-		$user = "wilburwhateley";
-		$password = "verysecuresqlpassword12321312312312";
+		$user = getenv('DB_USER');
+		$password = getenv('DB_PASSWORD');
 		$database = "my_first_database";
 		$db = new PDO("mysql:host=localhost;dbname=$database", $user, $password);
 
