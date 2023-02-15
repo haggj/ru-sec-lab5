@@ -25,8 +25,7 @@ if(isset($_SESSION['user'])) {
 
 		$allowed = array('txt', 'text', 'html');
 		if (!in_array($fileExt, $allowed)) {
-			echo "-" . $fileExt . "-";
-    		echo "Sorry, invalid file!!!!!!!!!!!!!!!.<br>";
+    		echo "Sorry, invalid file.";
 			$uploadOk = 0;
 		}
 		
